@@ -1,3 +1,4 @@
+
 import streamlit as st
 import langchain
 from dotenv import load_dotenv
@@ -16,8 +17,8 @@ llm = ChatOpenAI(temperature=0, model_name="gpt-4o-mini", max_tokens=500)
 # llm = ChatOllama(temperature=0, model="llama3.2", max_tokens=500)
 loaders = UnstructuredURLLoader(
     urls=[
-        "https://www.moneycontrol.com/news/business/markets/wall-street-rises-as-tesla-soars-on-ai-optimism-11351111.html",
-        "https://www.moneycontrol.com/news/business/tata-motors-launches-punch-icng-price-starts-at-rs-7-1-lakh-11098751.html",
+        "https://burma.irrawaddy.com/article/2024/11/03/392732.html",
+        "https://www.bbc.com/burmese/articles/c78dx7jprxlo",
     ]
 )
 data= loaders.load()
@@ -30,23 +31,13 @@ docs=text_splitter.split_documents(data)
 
 embeddings=OpenAIEmbeddings()
 vectorDB=FAISS.from_documents(docs,embeddings)
-
-# simple query - note
-# query = "how much Walt Disney (DIS.N) added?"
-# docs = vectorDB.similarity_search(query)
-# print(docs[0].page_content)
     
 chain=RetrievalQAWithSourcesChain.from_llm(llm=llm,retriever=vectorDB.as_retriever())
-query = "what is the price of Tiago iCNG?"
+# query = "အမ်းမြို့ နဲ့ အေအေ အကြောင်းသိချင်လို့ပါ?"
+# query = "ရခိုင်အကြောင်းသိချင်ပါတယ်?"
+query = "ရန်ကုန်အကြောင်းသိချင်ပါတယ်?"
 
-langchain.debug=True
+# langchain.debug=True
 
 print(chain({"question": query}, return_only_outputs=True))
 
-
-
-#note
-# print(docs[0])
-# res = llm.invoke("hello")
-
-# print(res)
