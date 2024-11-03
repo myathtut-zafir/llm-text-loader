@@ -17,6 +17,7 @@ langchain-openai = "*"
 langchain-community = "*"
 black = "*"
 langchain-ollama = "*"
+transformers = "*"
 
 [dev-packages]
 
